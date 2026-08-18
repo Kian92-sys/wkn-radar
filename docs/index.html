@@ -192,7 +192,7 @@
   <div class="wrap">
     <div class="top-row">
       <div>
-        <span class="status-badge">WARTE AUF ERSTEN LAUF</span>
+        <span class="status-badge">ZULETZT AKTUALISIERT &middot; manuell gestartet</span>
         <h1>Reddit WKN-Radar</h1>
         <p class="subtitle">Top 10 meistgenannte Aktien (WKN) in Finance-Subreddits</p>
       </div>
@@ -220,7 +220,7 @@
       <div class="kpi">
         <div class="label">Aktive Subreddits</div>
         <div class="value" id="kpiSubs">–</div>
-        <div class="sub" id="kpiSubsSub">von 0</div>
+        <div class="sub" id="kpiSubsSub">von 10</div>
       </div>
       <div class="kpi">
         <div class="label">Neu in Top 10 ggü. Vorwoche</div>
@@ -250,7 +250,7 @@
       <div class="empty-state" id="emptyState" style="display:none;">Keine Erwähnungen für diese Filterkombination gefunden.</div>
     </div>
 
-    <p class="footer-note">Noch keine Daten -- starte den ersten Lauf ueber Repo -> Tab 'Actions' -> 'WKN-Radar aktualisieren' -> 'Run workflow'. Diese Seite aktualisiert sich danach automatisch.</p>
+    <p class="footer-note">Generiert aus manuell gesammelten Reddit-Erwaehnungen (Datenquelle: Apify Reddit Scraper). Ein neuer Lauf wird ueber den GitHub-Actions-Tab gestartet ('WKN-Radar aktualisieren' -> 'Run workflow'), nicht automatisch. Erwaehnungen werden ueber WKN, Ticker oder Firmennamen erkannt (Mapping-Liste in data/wkn_mapping.csv, jederzeit erweiterbar). Auf einen Aktiennamen klicken zeigt die verlinkten Reddit-Beitraege.</p>
   </div>
 
   <div class="modal-overlay" id="postsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -268,11 +268,11 @@
 </div>
 
 <script>
-const SUBREDDITS = [];
-const WEEK_DATA = {};
-const WEEK_ORDER = [];
-const WEEK_LABELS = {};
-const GENERATED_AT = "-";
+const SUBREDDITS = ["mauerstrassenwetten", "Aktien", "Finanzen", "DeutscheAktien", "wallstreetbetsGER", "wallstreetbets", "stocks", "StockMarket", "investing", "pennystocks"];
+const WEEK_DATA = {"2026-W34": [{"ticker": "AMZN", "name": "Amazon", "wkn": "906023", "segment": "bluechip", "spark": [0, 4, 0, 0, 0, 0, 0], "bySubreddit": {"mauerstrassenwetten": 2, "stocks": 1, "investing": 1}, "posts": [{"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Die Abschreibungswelle kommt, egal was die KI-Ums\u00e4tze machen. Eine Zeitachse statt einer Meinung."}, {"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4g6x0l/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Extrem guter Pfosten. Halbe Bibel kein Hurensohn. Bei dem meisten geh ich mit. Einziger Punkt der mir zu kurz kommt ist der psychologische E\u2026"}, {"url": "https://www.reddit.com/r/stocks/comments/1vryft2/highpriced_stocks_vs_lowpriced_stocks/p4h5w8a/", "subreddit": "stocks", "date": "2026-08-18", "snippet": "Exactly! But if a very big player begins to compete with a small company I find interesting I become very careful. You don't want something\u2026"}, {"url": "https://www.reddit.com/r/investing/comments/1vrt1cf/anthropics_secondarymarket_price_is_falling/p4gx0xj/", "subreddit": "investing", "date": "2026-08-18", "snippet": "Well, I think that you are correct in the sense that the programming, and model training, is not difficult to replicate. What is difficult t\u2026"}]}, {"ticker": "NVDA", "name": "Nvidia", "wkn": "918422", "segment": "bluechip", "spark": [0, 2, 0, 0, 0, 0, 0], "bySubreddit": {"mauerstrassenwetten": 2}, "posts": [{"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Die Abschreibungswelle kommt, egal was die KI-Ums\u00e4tze machen. Eine Zeitachse statt einer Meinung."}, {"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4gzchw/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Du kannst bei den meisten Hyperscalern noch Nvidia P100s Nodes mieten, das ist eine 10 Jahre alte GPU die immer noch Profit abwirft. Die Aus\u2026"}]}, {"ticker": "MSFT", "name": "Microsoft", "wkn": "906866", "segment": "bluechip", "spark": [0, 4, 0, 0, 0, 0, 0], "bySubreddit": {"mauerstrassenwetten": 2, "wallstreetbets": 1, "investing": 1}, "posts": [{"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Die Abschreibungswelle kommt, egal was die KI-Ums\u00e4tze machen. Eine Zeitachse statt einer Meinung."}, {"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4g6x0l/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Extrem guter Pfosten. Halbe Bibel kein Hurensohn. Bei dem meisten geh ich mit. Einziger Punkt der mir zu kurz kommt ist der psychologische E\u2026"}, {"url": "https://www.reddit.com/r/wallstreetbets/comments/1vrvg0l/msft_gains/", "subreddit": "wallstreetbets", "date": "2026-08-18", "snippet": "MSFT Gains"}, {"url": "https://www.reddit.com/r/investing/comments/1vrt1cf/anthropics_secondarymarket_price_is_falling/p4gx0xj/", "subreddit": "investing", "date": "2026-08-18", "snippet": "Well, I think that you are correct in the sense that the programming, and model training, is not difficult to replicate. What is difficult t\u2026"}]}, {"ticker": "SMCI", "name": "Super Micro Computer", "wkn": "A2PSR2", "segment": "bluechip", "spark": [0, 1, 0, 0, 0, 0, 0], "bySubreddit": {"mauerstrassenwetten": 1}, "posts": [{"url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/", "subreddit": "mauerstrassenwetten", "date": "2026-08-18", "snippet": "Die Abschreibungswelle kommt, egal was die KI-Ums\u00e4tze machen. Eine Zeitachse statt einer Meinung."}]}, {"ticker": "VOW3", "name": "Volkswagen Vz", "wkn": "766403", "segment": "bluechip", "spark": [0, 1, 0, 0, 0, 0, 0], "bySubreddit": {"stocks": 1}, "posts": [{"url": "https://www.reddit.com/r/stocks/comments/1vrylmg/xpeng_an_asymmetrical_bet_here_with_unitree_ipo/", "subreddit": "stocks", "date": "2026-08-18", "snippet": "Xpeng an asymmetrical bet here with Unitree IPO 8,000x oversubscribed"}]}, {"ticker": "LEG", "name": "LEG Immobilien", "wkn": "LEG111", "segment": "bluechip", "spark": [0, 1, 0, 0, 0, 0, 0], "bySubreddit": {"stocks": 1}, "posts": [{"url": "https://www.reddit.com/r/stocks/comments/1vrx6ug/trying_to_understand_why_people_fear_a_correction/", "subreddit": "stocks", "date": "2026-08-18", "snippet": "Trying to Understand Why People Fear A Correction?"}]}]};
+const WEEK_ORDER = ["2026-W34"];
+const WEEK_LABELS = {"2026-W34": "KW 34 \u00b7 17.\u201323. Aug 2026"};
+const GENERATED_AT = "18.08.2026, 19:38 UTC";
 
 let activeSubs = new Set(SUBREDDITS);
 let currentWeek = WEEK_ORDER[0];

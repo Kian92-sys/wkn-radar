@@ -1,0 +1,227 @@
+{
+  "generated_at": "18.08.2026, 19:38 UTC",
+  "subreddits": [
+    "mauerstrassenwetten",
+    "Aktien",
+    "Finanzen",
+    "DeutscheAktien",
+    "wallstreetbetsGER",
+    "wallstreetbets",
+    "stocks",
+    "StockMarket",
+    "investing",
+    "pennystocks"
+  ],
+  "week_order": [
+    "2026-W34"
+  ],
+  "week_labels": {
+    "2026-W34": "KW 34 · 17.–23. Aug 2026"
+  },
+  "weeks": {
+    "2026-W34": [
+      {
+        "ticker": "AMZN",
+        "name": "Amazon",
+        "wkn": "906023",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "mauerstrassenwetten": 2,
+          "stocks": 1,
+          "investing": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Die Abschreibungswelle kommt, egal was die KI-Umsätze machen. Eine Zeitachse statt einer Meinung."
+          },
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4g6x0l/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Extrem guter Pfosten. Halbe Bibel kein Hurensohn. Bei dem meisten geh ich mit. Einziger Punkt der mir zu kurz kommt ist der psychologische E…"
+          },
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vryft2/highpriced_stocks_vs_lowpriced_stocks/p4h5w8a/",
+            "subreddit": "stocks",
+            "date": "2026-08-18",
+            "snippet": "Exactly! But if a very big player begins to compete with a small company I find interesting I become very careful. You don't want something…"
+          },
+          {
+            "url": "https://www.reddit.com/r/investing/comments/1vrt1cf/anthropics_secondarymarket_price_is_falling/p4gx0xj/",
+            "subreddit": "investing",
+            "date": "2026-08-18",
+            "snippet": "Well, I think that you are correct in the sense that the programming, and model training, is not difficult to replicate. What is difficult t…"
+          }
+        ]
+      },
+      {
+        "ticker": "NVDA",
+        "name": "Nvidia",
+        "wkn": "918422",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "mauerstrassenwetten": 2
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Die Abschreibungswelle kommt, egal was die KI-Umsätze machen. Eine Zeitachse statt einer Meinung."
+          },
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4gzchw/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Du kannst bei den meisten Hyperscalern noch Nvidia P100s Nodes mieten, das ist eine 10 Jahre alte GPU die immer noch Profit abwirft. Die Aus…"
+          }
+        ]
+      },
+      {
+        "ticker": "MSFT",
+        "name": "Microsoft",
+        "wkn": "906866",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "mauerstrassenwetten": 2,
+          "wallstreetbets": 1,
+          "investing": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Die Abschreibungswelle kommt, egal was die KI-Umsätze machen. Eine Zeitachse statt einer Meinung."
+          },
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/p4g6x0l/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Extrem guter Pfosten. Halbe Bibel kein Hurensohn. Bei dem meisten geh ich mit. Einziger Punkt der mir zu kurz kommt ist der psychologische E…"
+          },
+          {
+            "url": "https://www.reddit.com/r/wallstreetbets/comments/1vrvg0l/msft_gains/",
+            "subreddit": "wallstreetbets",
+            "date": "2026-08-18",
+            "snippet": "MSFT Gains"
+          },
+          {
+            "url": "https://www.reddit.com/r/investing/comments/1vrt1cf/anthropics_secondarymarket_price_is_falling/p4gx0xj/",
+            "subreddit": "investing",
+            "date": "2026-08-18",
+            "snippet": "Well, I think that you are correct in the sense that the programming, and model training, is not difficult to replicate. What is difficult t…"
+          }
+        ]
+      },
+      {
+        "ticker": "SMCI",
+        "name": "Super Micro Computer",
+        "wkn": "A2PSR2",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "mauerstrassenwetten": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
+            "subreddit": "mauerstrassenwetten",
+            "date": "2026-08-18",
+            "snippet": "Die Abschreibungswelle kommt, egal was die KI-Umsätze machen. Eine Zeitachse statt einer Meinung."
+          }
+        ]
+      },
+      {
+        "ticker": "VOW3",
+        "name": "Volkswagen Vz",
+        "wkn": "766403",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vrylmg/xpeng_an_asymmetrical_bet_here_with_unitree_ipo/",
+            "subreddit": "stocks",
+            "date": "2026-08-18",
+            "snippet": "Xpeng an asymmetrical bet here with Unitree IPO 8,000x oversubscribed"
+          }
+        ]
+      },
+      {
+        "ticker": "LEG",
+        "name": "LEG Immobilien",
+        "wkn": "LEG111",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vrx6ug/trying_to_understand_why_people_fear_a_correction/",
+            "subreddit": "stocks",
+            "date": "2026-08-18",
+            "snippet": "Trying to Understand Why People Fear A Correction?"
+          }
+        ]
+      }
+    ]
+  }
+}
