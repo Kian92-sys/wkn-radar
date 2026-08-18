@@ -1,0 +1,21 @@
+{
+  "subreddits": [
+    "mauerstrassenwetten",
+    "Aktien",
+    "Finanzen",
+    "DeutscheAktien",
+    "wallstreetbetsGER",
+    "wallstreetbets",
+    "stocks",
+    "StockMarket",
+    "investing",
+    "pennystocks"
+  ],
+  "apify_actor": "labrat011/reddit-scraper",
+  "sort": "new",
+  "max_results_per_subreddit": 30,
+  "include_comments": true,
+  "max_comments_per_post": 15,
+  "seen_id_retention_days": 60,
+  "weekly_data_retention_weeks": 10
+}

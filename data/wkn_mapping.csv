@@ -1,0 +1,75 @@
+wkn,ticker,isin,name,aliases,segment
+716460,SAP,DE0007164600,SAP,SAP SE,bluechip
+723610,SIE,DE0007236101,Siemens,Siemens AG,bluechip
+840400,ALV,DE0008404005,Allianz,Allianz SE,bluechip
+BASF11,BAS,DE000BASF111,BASF,BASF SE,bluechip
+BAY001,BAYN,DE000BAY0017,Bayer,Bayer AG,bluechip
+514000,DBK,DE0005140008,Deutsche Bank,Deutsche Bank AG,bluechip
+766403,VOW3,DE0007664039,Volkswagen Vz,VW|Volkswagen|VW Vorzug,bluechip
+766400,VOW,DE0007664005,Volkswagen St,VW Stamm,bluechip
+A1EWWW,ADS,DE000A1EWWW0,Adidas,Adidas AG,bluechip
+623100,IFX,DE0006231004,Infineon,Infineon Technologies,bluechip
+843002,MUV2,DE0008430026,Munich Re,Münchener Rück|Muenchener Rueck,bluechip
+710000,MBG,DE0007100000,Mercedes-Benz Group,Mercedes|Mercedes-Benz|Daimler,bluechip
+519000,BMW,DE0005190003,BMW,Bayerische Motoren Werke,bluechip
+703712,RWE,DE0007037129,RWE,RWE AG,bluechip
+ENAG99,EOAN,DE000ENAG999,E.ON,EON,bluechip
+555750,DTE,DE0005557508,Deutsche Telekom,Telekom,bluechip
+555200,DHL,DE0005552004,DHL Group,Deutsche Post|DHL,bluechip
+938914,AIR,NL0000235190,Airbus,Airbus SE,bluechip
+578560,FRE,DE0005785604,Fresenius SE,Fresenius,bluechip
+578580,FME,DE0005785802,Fresenius Medical Care,FMC,bluechip
+659990,MRK,DE0006599905,Merck KGaA,Merck,bluechip
+604843,HEN3,DE0006048432,Henkel Vz,Henkel,bluechip
+543900,CON,DE0005439004,Continental,Conti,bluechip
+520000,BEI,DE0005200000,Beiersdorf,Nivea,bluechip
+CBK100,CBK,DE000CBK1001,Commerzbank,Coba,bluechip
+581005,DB1,DE0005810055,Deutsche Börse,Deutsche Boerse,bluechip
+840221,HNR1,DE0008402215,Hannover Rück,Hannover Rueck|Hannover Re,bluechip
+703000,RHM,DE0007030009,Rheinmetall,RHM,bluechip
+A1ML7J,VNA,DE000A1ML7J1,Vonovia,Vonovia SE,bluechip
+ZAL111,ZAL,DE000ZAL1111,Zalando,Zalando SE,bluechip
+823212,LHA,DE0008232125,Lufthansa,LH,bluechip
+750000,TKA,DE0007500001,ThyssenKrupp,Thyssen,bluechip
+TUAG00,TUI1,DE000TUAG000,TUI,TUI AG,bluechip
+A0D655,NDX1,DE000A0D6554,Nordex,Nordex SE,smallcap
+A0TGJ5,VAR1,DE000A0TGJ55,Varta,Varta AG,smallcap
+A0WMPJ,AIXA,DE000A0WMPJ6,Aixtron,Aixtron SE,smallcap
+KSAG88,SDF,DE000KSAG888,K+S,K+S AG,bluechip
+A16140,HFG,DE000A161408,HelloFresh,HelloFresh SE,bluechip
+A2E4K4,DHER,DE000A2E4K43,Delivery Hero,Delivery Hero SE,bluechip
+630500,DEZ,DE0006305006,Deutz,Deutz AG,smallcap
+566480,EVT,DE0005664809,Evotec,Evotec SE,smallcap
+663200,MOR,DE0006632003,MorphoSys,Morphosys,smallcap
+547030,EVD,DE0005470306,CTS Eventim,Eventim,bluechip
+645290,NEM,DE0006452907,Nemetschek,Nemetschek SE,bluechip
+701080,RAA,DE0007010803,Rational,Rational AG,bluechip
+LEG111,LEG,DE000LEG1110,LEG Immobilien,LEG,bluechip
+A2DKCH,QIA,NL0012169213,Qiagen,Qiagen NV,bluechip
+A0D9PT,MTX,DE000A0D9PT0,MTU Aero Engines,MTU,bluechip
+6062F0,1COV,DE0006062144,Covestro,Covestro AG,bluechip
+A2NB65,PAH3,DE000PAH0038,Porsche SE,Porsche Holding,bluechip
+865985,AAPL,US0378331005,Apple,Apple Inc,bluechip
+865985,,US0378331005,Apple,iPhone,bluechip
+A1CX3T,TSLA,US88160R1014,Tesla,Tesla Inc,bluechip
+918422,NVDA,US67066G1040,Nvidia,Nvidia Corp,bluechip
+A2QA4J,PLTR,US69608A1088,Palantir,Palantir Technologies,bluechip
+A0HGDX,GME,US36467W1099,GameStop,GME Aktie,bluechip
+A3D7MZ,AMC,US00165C3025,AMC Entertainment,AMC Aktie,bluechip
+A1J2AA,NIO,US62914V1061,Nio,Nio Inc,bluechip
+A3C99J,RIVN,US76954A1034,Rivian,Rivian Automotive,bluechip
+A1JA81,PLUG,US72919P2020,Plug Power,Plug Power Inc,bluechip
+A2PSR2,SMCI,US86800U1043,Super Micro Computer,Supermicro,bluechip
+906866,MSFT,US5949181045,Microsoft,Microsoft Corp,bluechip
+906023,AMZN,US0231351067,Amazon,Amazon.com,bluechip
+A2JQNK,BABA,US01609W1027,Alibaba,Alibaba Group,bluechip
+549392,DIS,US2546871060,Walt Disney,Disney,bluechip
+850663,MMM,US88579Y1010,3M,3M Company,bluechip
+603391,C,US1729674242,Citigroup,Citi,bluechip
+A2AFCX,SQ,US8522341036,Block,Square,bluechip
+A2JVBX,SNAP,US83304A1060,Snap,Snapchat,bluechip
+A2N9L1,COIN,US19260Q1076,Coinbase,Coinbase Global,bluechip
+871981,KO,US1912161007,Coca-Cola,Coca Cola,bluechip
+850471,GE,US3696043013,General Electric,GE,bluechip
+A0B733,NEL,NO0010081235,Nel ASA,Nel Hydrogen,pennystock
+A0JBPG,PNE3,DE000A0JBPG2,PNE AG,PNE Wind,pennystock

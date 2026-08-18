@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reddit WKN-Radar</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;   /* sequential blue */
+    --chip-bg:        #eef2f7;
+    --chip-ink:       #3a3f47;
+    --chip-active-bg: #2a78d6;
+    --chip-active-ink:#ffffff;
+    --new-accent:     #4a3aa7;   /* violet, distinct from bar blue */
+    --new-bg:         #f1eefb;
+    --warn-ink:       #92620a;
+    --warn-bg:        #fbeecb;
+    --warn-border:    rgba(146,98,10,0.30);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --chip-bg:        #22262c;
+      --chip-ink:       #c3c2b7;
+      --chip-active-bg: #3987e5;
+      --chip-active-ink:#0b0b0b;
+      --new-accent:     #9085e9;
+      --new-bg:         #211d33;
+      --warn-ink:       #e8c07a;
+      --warn-bg:        #332a12;
+      --warn-border:    rgba(232,192,122,0.30);
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --chip-bg:        #22262c;
+    --chip-ink:       #c3c2b7;
+    --chip-active-bg: #3987e5;
+    --chip-active-ink:#0b0b0b;
+    --new-accent:     #9085e9;
+    --new-bg:         #211d33;
+    --warn-ink:       #e8c07a;
+    --warn-bg:        #332a12;
+    --warn-border:    rgba(232,192,122,0.30);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  /* Theming lives on .viz-root itself, not body -- the custom properties
+     are only defined within .viz-root's scope, so a parent element (body)
+     referencing var(--text-primary) etc. would not resolve correctly. */
+  .viz-root { display: block; min-height: 100vh; background: var(--page); color: var(--text-primary); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 64px; }
+  .top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 4px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 14px; margin: 0; }
+  .meta { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
+  .status-badge {
+    display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .02em;
+    color: var(--warn-ink); background: var(--warn-bg); border: 1px solid var(--warn-border);
+    padding: 3px 8px; border-radius: 999px; margin-bottom: 10px;
+  }
+  .theme-toggle { border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0 20px; }
+  .kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .kpi .label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .kpi .value { font-size: 26px; font-weight: 600; line-height: 1.15; }
+  .kpi .sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+  .kpi .new-names { font-size: 13px; font-weight: 600; color: var(--new-accent); line-height: 1.3; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-end; margin-bottom: 16px; }
+  .control-group { display: flex; flex-direction: column; gap: 6px; }
+  .control-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .03em; }
+  select.week-select {
+    font-family: inherit; font-size: 13px; padding: 7px 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary);
+  }
+  .sub-filter { display: flex; flex-wrap: wrap; gap: 6px; max-width: 620px; }
+  .sub-chip {
+    font-size: 12px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--chip-bg); color: var(--chip-ink); cursor: pointer; user-select: none;
+  }
+  .sub-chip[aria-pressed="true"] { background: var(--chip-active-bg); color: var(--chip-active-ink); border-color: transparent; }
+  .sub-chip.reset { font-weight: 600; }
+
+  .panel { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 8px 4px 4px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px 6px; flex-wrap: wrap; gap: 6px; }
+  .panel-head h2 { font-size: 15px; margin: 0; }
+  .legend-note { font-size: 12px; color: var(--text-muted); }
+
+  table.ranking { width: 100%; border-collapse: collapse; }
+  table.ranking th { text-align: left; font-size: 11px; color: var(--text-muted); font-weight: 500; padding: 6px 16px; border-bottom: 1px solid var(--gridline); }
+  table.ranking td { padding: 10px 16px; border-bottom: 1px solid var(--gridline); vertical-align: middle; }
+  table.ranking tr:last-child td { border-bottom: none; }
+  table.ranking tr.is-new { background: var(--new-bg); }
+  table.ranking tr.is-new .rank { color: var(--new-accent); font-weight: 700; }
+  .rank { font-variant-numeric: tabular-nums; color: var(--text-muted); font-size: 13px; width: 24px; }
+  .name-cell { min-width: 190px; }
+  .name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .name { font-weight: 600; font-size: 14px; }
+  .sub-line { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .bar-cell { min-width: 200px; }
+  .bar-track { background: var(--gridline); border-radius: 4px; height: 10px; position: relative; overflow: hidden; }
+  .bar-fill { background: var(--series-1); height: 100%; border-radius: 4px; }
+  .count-cell { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 600; text-align: right; width: 56px; }
+  .delta-cell { width: 90px; font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+  .arrow { display: inline-block; margin-right: 3px; }
+  .delta-new-badge {
+    display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700;
+    background: var(--new-accent); color: #fff; padding: 2px 7px; border-radius: 999px;
+  }
+  .spark-cell { width: 90px; }
+  .chips-cell { font-size: 11px; color: var(--text-muted); }
+  .chip { display: inline-block; background: var(--chip-bg); color: var(--chip-ink); padding: 2px 6px; border-radius: 999px; margin: 1px 2px 1px 0; }
+  .penny-tag {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600;
+    color: var(--warn-ink); background: var(--warn-bg); border: 1px solid var(--warn-border);
+    padding: 1px 7px; border-radius: 999px;
+  }
+  .penny-tag::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--warn-ink); display: inline-block; }
+  .empty-state { padding: 24px 16px; color: var(--text-muted); font-size: 13px; text-align: center; }
+
+  .footer-note { font-size: 12px; color: var(--text-muted); margin-top: 18px; line-height: 1.5; }
+  a { color: var(--series-1); }
+
+  .name-btn {
+    background: none; border: none; padding: 0; margin: 0; font: inherit; font-weight: 600; font-size: 14px;
+    color: var(--text-primary); cursor: pointer; text-decoration-line: underline; text-decoration-color: transparent;
+    transition: text-decoration-color .1s, color .1s;
+  }
+  .name-btn:hover, .name-btn:focus-visible { color: var(--series-1); text-decoration-color: var(--series-1); }
+  .name-btn:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; border-radius: 2px; }
+  .posts-hint { font-size: 11px; color: var(--text-muted); }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(11,11,11,0.45); display: none;
+    align-items: center; justify-content: center; z-index: 50; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-panel {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    max-width: 560px; width: 100%; max-height: 80vh; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .modal-head { display: flex; justify-content: space-between; align-items: flex-start; padding: 16px 18px 12px; border-bottom: 1px solid var(--gridline); gap: 12px; }
+  .modal-title { font-size: 15px; font-weight: 700; margin: 0; }
+  .modal-subtitle { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+  .modal-close {
+    background: none; border: 1px solid var(--border); border-radius: 8px; width: 28px; height: 28px;
+    cursor: pointer; color: var(--text-secondary); font-size: 14px; line-height: 1; flex-shrink: 0;
+  }
+  .modal-close:hover { color: var(--text-primary); }
+  .modal-body { overflow-y: auto; padding: 8px; }
+  .post-row { display: block; padding: 10px; border-radius: 8px; text-decoration: none; color: inherit; }
+  .post-row:hover, .post-row:focus-visible { background: var(--chip-bg); }
+  .post-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .post-snippet { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
+  .post-link-hint { font-size: 11px; color: var(--series-1); margin-top: 4px; }
+  .modal-empty { padding: 24px 16px; color: var(--text-muted); font-size: 13px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+    <div class="top-row">
+      <div>
+        <span class="status-badge">__STATUS_BADGE__</span>
+        <h1>Reddit WKN-Radar</h1>
+        <p class="subtitle">Top 10 meistgenannte Aktien (WKN) in Finance-Subreddits</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button">Dark Mode</button>
+    </div>
+    <div class="meta" id="metaLine"></div>
+
+    <div class="controls">
+      <div class="control-group">
+        <span class="control-label">Kalenderwoche</span>
+        <select class="week-select" id="weekSelect"></select>
+      </div>
+      <div class="control-group" style="flex:1;">
+        <span class="control-label">Subreddits (Mehrfachauswahl)</span>
+        <div class="sub-filter" id="subFilter"></div>
+      </div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">Erwähnungen (ausgewählte Filter)</div>
+        <div class="value" id="kpiTotal">–</div>
+        <div class="sub" id="kpiTotalSub"></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Aktive Subreddits</div>
+        <div class="value" id="kpiSubs">–</div>
+        <div class="sub" id="kpiSubsSub">von __SUB_COUNT__</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Neu in Top 10 ggü. Vorwoche</div>
+        <div class="new-names" id="kpiNewNames">–</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Top 10</h2>
+        <span class="legend-note">Balken = Erwähnungen &middot; violett markiert = neu in Top 10</span>
+      </div>
+      <table class="ranking" id="rankingTable">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Aktie</th>
+            <th>Erwähnungen</th>
+            <th></th>
+            <th>Trend</th>
+            <th>ggü. Vorwoche</th>
+            <th>Quellen</th>
+          </tr>
+        </thead>
+        <tbody id="rankingBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none;">Keine Erwähnungen für diese Filterkombination gefunden.</div>
+    </div>
+
+    <p class="footer-note">__FOOTER_NOTE__</p>
+  </div>
+
+  <div class="modal-overlay" id="postsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div>
+          <p class="modal-title" id="modalTitle"></p>
+          <p class="modal-subtitle" id="modalSubtitle"></p>
+        </div>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Schließen">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUBREDDITS = __SUBREDDITS_JSON__;
+const WEEK_DATA = __WEEK_DATA_JSON__;
+const WEEK_ORDER = __WEEK_ORDER_JSON__;
+const WEEK_LABELS = __WEEK_LABELS_JSON__;
+const GENERATED_AT = __GENERATED_AT_JSON__;
+
+let activeSubs = new Set(SUBREDDITS);
+let currentWeek = WEEK_ORDER[0];
+
+function fmt(n) { return n.toLocaleString("de-DE"); }
+
+function filteredTotal(stock) {
+  return Object.entries(stock.bySubreddit).reduce((sum, [sub, n]) => activeSubs.has(sub) ? sum + n : sum, 0);
+}
+function sourcesForStock(stock) {
+  return Object.entries(stock.bySubreddit).filter(([sub, n]) => activeSubs.has(sub) && n > 0).sort((a,b)=>b[1]-a[1]).map(([sub]) => sub);
+}
+function computeTop10(weekKey) {
+  return (WEEK_DATA[weekKey] || [])
+    .map(s => ({ ...s, total: filteredTotal(s), sources: sourcesForStock(s) }))
+    .filter(s => s.total > 0)
+    .sort((a,b) => b.total - a.total)
+    .slice(0, 10);
+}
+
+function sparkPath(values, w, h, pad) {
+  const max = Math.max(...values), min = Math.min(...values);
+  const range = (max - min) || 1;
+  const step = (w - pad * 2) / (values.length - 1);
+  return values.map((v, i) => {
+    const x = pad + i * step;
+    const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+    return (i === 0 ? "M" : "L") + x.toFixed(1) + "," + y.toFixed(1);
+  }).join(" ");
+}
+function renderSpark(values) {
+  if (!values || values.length < 2) return '<span style="color:var(--text-muted); font-size:11px;">–</span>';
+  const w = 80, h = 28, pad = 3;
+  const path = sparkPath(values, w, h, pad);
+  const last = values[values.length - 1];
+  const max = Math.max(...values), min = Math.min(...values);
+  const range = (max - min) || 1;
+  const lastX = w - pad;
+  const lastY = pad + (1 - (last - min) / range) * (h - pad * 2);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="7-Tage-Trend">
+    <path d="${path}" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${lastX}" cy="${lastY.toFixed(1)}" r="2.5" fill="var(--series-1)"/>
+  </svg>`;
+}
+function renderChips(sources) {
+  return sources.map(s => `<span class="chip">${s}</span>`).join("") || '<span class="chip">—</span>';
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : str;
+  return div.innerHTML;
+}
+
+function openPostsModal(stock) {
+  const modal = document.getElementById("postsModal");
+  document.getElementById("modalTitle").textContent = `${stock.name} (${stock.ticker})`;
+  document.getElementById("modalSubtitle").textContent =
+    `WKN ${stock.wkn} · Beiträge aus ausgewählten Subreddits · ${WEEK_LABELS[currentWeek] || ""}`;
+
+  const posts = (stock.posts || [])
+    .filter(p => p.url && activeSubs.has(p.subreddit))
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+
+  const body = document.getElementById("modalBody");
+  if (posts.length === 0) {
+    body.innerHTML = '<div class="modal-empty">Keine verlinkten Beiträge für diese Filterauswahl gefunden.</div>';
+  } else {
+    body.innerHTML = posts.map(p => `
+      <a class="post-row" href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer">
+        <div class="post-meta"><span class="chip">${escapeHtml(p.subreddit)}</span><span>${escapeHtml(p.date)}</span></div>
+        <div class="post-snippet">${p.snippet ? escapeHtml(p.snippet) : "(kein Textauszug verfügbar)"}</div>
+        <div class="post-link-hint">Zum Beitrag auf Reddit &#8599;</div>
+      </a>`).join("");
+  }
+
+  modal.classList.add("open");
+  document.getElementById("modalClose").focus();
+}
+function closePostsModal() {
+  document.getElementById("postsModal").classList.remove("open");
+}
+document.getElementById("modalClose").addEventListener("click", closePostsModal);
+document.getElementById("postsModal").addEventListener("click", (e) => {
+  if (e.target.id === "postsModal") closePostsModal();
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePostsModal(); });
+
+function render() {
+  const idx = WEEK_ORDER.indexOf(currentWeek);
+  const prevWeek = WEEK_ORDER[idx + 1];
+
+  const top10 = computeTop10(currentWeek);
+  const top10Set = new Set(top10.map(s => s.ticker));
+  let prevSet = new Set();
+  if (prevWeek) prevSet = new Set(computeTop10(prevWeek).map(s => s.ticker));
+  const newOnes = top10.filter(s => prevWeek ? !prevSet.has(s.ticker) : false);
+
+  // subreddit chips
+  const subFilterEl = document.getElementById("subFilter");
+  subFilterEl.innerHTML = `<button class="sub-chip reset" id="resetChip" type="button" aria-pressed="${activeSubs.size===SUBREDDITS.length}">Alle</button>` +
+    SUBREDDITS.map(s => `<button class="sub-chip" data-sub="${s}" type="button" aria-pressed="${activeSubs.has(s)}">${s}</button>`).join("");
+  subFilterEl.querySelectorAll(".sub-chip[data-sub]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sub = btn.dataset.sub;
+      if (activeSubs.has(sub)) activeSubs.delete(sub); else activeSubs.add(sub);
+      if (activeSubs.size === 0) activeSubs = new Set(SUBREDDITS); // never allow empty filter
+      render();
+    });
+  });
+  document.getElementById("resetChip").addEventListener("click", () => { activeSubs = new Set(SUBREDDITS); render(); });
+
+  // week select
+  const weekSelectEl = document.getElementById("weekSelect");
+  if (weekSelectEl.options.length === 0) {
+    weekSelectEl.innerHTML = WEEK_ORDER.map(k => `<option value="${k}">${WEEK_LABELS[k]}</option>`).join("");
+    weekSelectEl.addEventListener("change", () => { currentWeek = weekSelectEl.value; render(); });
+  }
+  weekSelectEl.value = currentWeek;
+
+  // table
+  const body = document.getElementById("rankingBody");
+  const emptyState = document.getElementById("emptyState");
+  if (top10.length === 0) {
+    body.innerHTML = "";
+    emptyState.style.display = "block";
+  } else {
+    emptyState.style.display = "none";
+    const maxCount = Math.max(...top10.map(d => d.total));
+    body.innerHTML = top10.map((item, i) => {
+      const isNew = top10Set.has(item.ticker) && newOnes.some(n => n.ticker === item.ticker);
+      const pennyTag = item.segment === "pennystock" ? '<span class="penny-tag">Pennystock</span>' : "";
+      let deltaHtml = '<span class="delta-cell">–</span>';
+      if (isNew) {
+        deltaHtml = '<span class="delta-new-badge">★ NEU</span>';
+      } else if (prevWeek) {
+        const prevStock = (WEEK_DATA[prevWeek] || []).find(s => s.ticker === item.ticker);
+        if (prevStock) {
+          const prevTotal = Object.entries(prevStock.bySubreddit).reduce((sum,[sub,n]) => activeSubs.has(sub) ? sum+n : sum, 0);
+          if (prevTotal > 0) {
+            const diff = item.total - prevTotal;
+            const pct = Math.round((diff / prevTotal) * 100);
+            deltaHtml = diff > 0 ? `<span class="delta-cell"><span class="arrow">&#8593;</span>${pct}%</span>`
+                       : diff < 0 ? `<span class="delta-cell"><span class="arrow">&#8595;</span>${Math.abs(pct)}%</span>`
+                       : `<span class="delta-cell">±0%</span>`;
+          }
+        }
+      }
+      const postCount = (item.posts || []).filter(p => p.url && activeSubs.has(p.subreddit)).length;
+      const postsHint = postCount > 0
+        ? `<span class="posts-hint">${postCount} Beitrag${postCount === 1 ? "" : "e"} verlinkt</span>`
+        : `<span class="posts-hint">keine Links</span>`;
+      return `
+      <tr class="${isNew ? "is-new" : ""}">
+        <td class="rank">${i+1}</td>
+        <td class="name-cell">
+          <div class="name-row">
+            <button type="button" class="name-btn" data-wkn="${item.wkn}">${item.name}</button>
+            <span style="color:var(--text-muted); font-weight:400;">${item.ticker}</span>
+            ${pennyTag}
+          </div>
+          <div class="sub-line">WKN ${item.wkn} &middot; ${postsHint}</div>
+        </td>
+        <td class="count-cell">${fmt(item.total)}</td>
+        <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${(item.total / maxCount * 100).toFixed(0)}%"></div></div></td>
+        <td class="spark-cell">${renderSpark(item.spark)}</td>
+        <td class="delta-cell">${deltaHtml}</td>
+        <td class="chips-cell">${renderChips(item.sources)}</td>
+      </tr>`;
+    }).join("");
+
+    body.querySelectorAll(".name-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const stock = top10.find(s => s.wkn === btn.dataset.wkn);
+        if (stock) openPostsModal(stock);
+      });
+    });
+  }
+
+  // KPIs
+  const totalMentions = top10.reduce((s, d) => s + d.total, 0);
+  document.getElementById("kpiTotal").textContent = fmt(totalMentions);
+  document.getElementById("kpiTotalSub").textContent = "Top 10 · " + (WEEK_LABELS[currentWeek] || "–");
+  document.getElementById("kpiSubs").textContent = activeSubs.size;
+  document.getElementById("kpiNewNames").textContent = newOnes.length ? newOnes.map(n => n.name).join(", ") : (prevWeek ? "keine" : "– (erste Woche)");
+
+  document.getElementById("metaLine").textContent =
+    "Zuletzt aktualisiert: " + (GENERATED_AT || "–") + " · " + (WEEK_LABELS[currentWeek] || "–");
+}
+render();
+
+const toggle = document.getElementById("themeToggle");
+toggle.addEventListener("click", () => {
+  const root = document.documentElement;
+  const current = root.getAttribute("data-theme");
+  if (current === "dark") { root.setAttribute("data-theme", "light"); toggle.textContent = "Dark Mode"; }
+  else { root.setAttribute("data-theme", "dark"); toggle.textContent = "Light Mode"; }
+});
+</script>
+</body>
+</html>
