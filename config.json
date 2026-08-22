@@ -12,10 +12,29 @@
     "pennystocks"
   ],
   "apify_actor": "labrat011/reddit-scraper",
-  "sort": "new",
+  "top_time_filter": "week",
   "max_results_per_subreddit": 30,
   "include_comments": true,
   "max_comments_per_post": 15,
+  "tip_request": {
+    "enabled": true,
+    "max_comments_per_post": 40,
+    "queries": [
+      "welche aktie",
+      "welche aktien",
+      "geheimtipp",
+      "tenbagger",
+      "10 bagger",
+      "10-bagger",
+      "hidden gem",
+      "undervalued",
+      "multibagger",
+      "aktientipp",
+      "which stock",
+      "next nvidia",
+      "next amazon"
+    ]
+  },
   "seen_id_retention_days": 60,
   "weekly_data_retention_weeks": 10
 }
