@@ -113,6 +113,7 @@
   .sub-chip.reset { font-weight: 600; }
 
   .panel { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 8px 4px 4px; }
+  .panel + .panel { margin-top: 16px; }
   .panel-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px 6px; flex-wrap: wrap; gap: 6px; }
   .panel-head h2 { font-size: 15px; margin: 0; }
   .legend-note { font-size: 12px; color: var(--text-muted); }
@@ -250,6 +251,34 @@
       <div class="empty-state" id="emptyState" style="display:none;">Keine Erwähnungen für diese Filterkombination gefunden.</div>
     </div>
 
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Unbekannte Aktien &middot; Vorschläge</h2>
+        <span class="legend-note">$Cashtags, die noch nicht in der Mapping-Liste stehen</span>
+      </div>
+      <table class="ranking" id="unknownTable">
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Erwähnungen</th>
+            <th></th>
+            <th>Quellen</th>
+          </tr>
+        </thead>
+        <tbody id="unknownBody"></tbody>
+      </table>
+      <div class="empty-state" id="unknownEmptyState" style="display:none;">Keine unbekannten Ticker für diese Filterkombination gefunden.</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Tipp-Anfragen</h2>
+        <span class="legend-note">z.B. "welche Aktie wird die nächste X" &middot; auch ohne bekannten Ticker</span>
+      </div>
+      <div id="tipThreadsBody" style="padding:4px;"></div>
+      <div class="empty-state" id="tipEmptyState" style="display:none;">Keine Tipp-Anfrage-Threads für diese Filterkombination gefunden.</div>
+    </div>
+
     <p class="footer-note">__FOOTER_NOTE__</p>
   </div>
 
@@ -273,6 +302,8 @@ const WEEK_DATA = __WEEK_DATA_JSON__;
 const WEEK_ORDER = __WEEK_ORDER_JSON__;
 const WEEK_LABELS = __WEEK_LABELS_JSON__;
 const GENERATED_AT = __GENERATED_AT_JSON__;
+const UNKNOWN_TICKERS = __UNKNOWN_TICKERS_JSON__;
+const TIP_THREADS = __TIP_THREADS_JSON__;
 
 let activeSubs = new Set(SUBREDDITS);
 let currentWeek = WEEK_ORDER[0];
@@ -291,6 +322,12 @@ function computeTop10(weekKey) {
     .filter(s => s.total > 0)
     .sort((a,b) => b.total - a.total)
     .slice(0, 10);
+}
+function computeUnknownTickers(weekKey) {
+  return (UNKNOWN_TICKERS[weekKey] || [])
+    .map(s => ({ ...s, total: filteredTotal(s), sources: sourcesForStock(s) }))
+    .filter(s => s.total > 0)
+    .sort((a,b) => b.total - a.total);
 }
 
 function sparkPath(values, w, h, pad) {
@@ -327,13 +364,12 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function openPostsModal(stock) {
+function openPostsModalGeneric(title, subtitle, postsList) {
   const modal = document.getElementById("postsModal");
-  document.getElementById("modalTitle").textContent = `${stock.name} (${stock.ticker})`;
-  document.getElementById("modalSubtitle").textContent =
-    `WKN ${stock.wkn} · Beiträge aus ausgewählten Subreddits · ${WEEK_LABELS[currentWeek] || ""}`;
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalSubtitle").textContent = subtitle;
 
-  const posts = (stock.posts || [])
+  const posts = (postsList || [])
     .filter(p => p.url && activeSubs.has(p.subreddit))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 
@@ -351,6 +387,20 @@ function openPostsModal(stock) {
 
   modal.classList.add("open");
   document.getElementById("modalClose").focus();
+}
+function openPostsModal(stock) {
+  openPostsModalGeneric(
+    `${stock.name} (${stock.ticker})`,
+    `WKN ${stock.wkn} · Beiträge aus ausgewählten Subreddits · ${WEEK_LABELS[currentWeek] || ""}`,
+    stock.posts
+  );
+}
+function openUnknownModal(entry) {
+  openPostsModalGeneric(
+    `$${entry.ticker} (noch nicht getrackt)`,
+    `Unbekannter Ticker · Beiträge aus ausgewählten Subreddits · ${WEEK_LABELS[currentWeek] || ""}`,
+    entry.posts
+  );
 }
 function closePostsModal() {
   document.getElementById("postsModal").classList.remove("open");
@@ -450,6 +500,48 @@ function render() {
         if (stock) openPostsModal(stock);
       });
     });
+  }
+
+  // unbekannte Aktien -- Vorschlagsliste
+  const unknownList = computeUnknownTickers(currentWeek);
+  const unknownBody = document.getElementById("unknownBody");
+  const unknownEmptyState = document.getElementById("unknownEmptyState");
+  if (unknownList.length === 0) {
+    unknownBody.innerHTML = "";
+    unknownEmptyState.style.display = "block";
+  } else {
+    unknownEmptyState.style.display = "none";
+    const maxUnknown = Math.max(...unknownList.map(d => d.total));
+    unknownBody.innerHTML = unknownList.map(item => `
+      <tr>
+        <td class="name-cell"><button type="button" class="name-btn" data-ticker="${item.ticker}">$${item.ticker}</button></td>
+        <td class="count-cell">${fmt(item.total)}</td>
+        <td class="bar-cell"><div class="bar-track"><div class="bar-fill" style="width:${(item.total / maxUnknown * 100).toFixed(0)}%"></div></div></td>
+        <td class="chips-cell">${renderChips(item.sources)}</td>
+      </tr>`).join("");
+    unknownBody.querySelectorAll(".name-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const entry = unknownList.find(s => s.ticker === btn.dataset.ticker);
+        if (entry) openUnknownModal(entry);
+      });
+    });
+  }
+
+  // Tipp-Anfrage-Threads
+  const tipList = (TIP_THREADS[currentWeek] || []).filter(t => activeSubs.has(t.subreddit));
+  const tipBody = document.getElementById("tipThreadsBody");
+  const tipEmptyState = document.getElementById("tipEmptyState");
+  if (tipList.length === 0) {
+    tipBody.innerHTML = "";
+    tipEmptyState.style.display = "block";
+  } else {
+    tipEmptyState.style.display = "none";
+    tipBody.innerHTML = tipList.map(t => `
+      <a class="post-row" href="${t.url ? escapeHtml(t.url) : "#"}" target="_blank" rel="noopener noreferrer">
+        <div class="post-meta"><span class="chip">${escapeHtml(t.subreddit)}</span><span>${escapeHtml(t.date)}</span></div>
+        <div class="post-snippet">${t.snippet ? escapeHtml(t.snippet) : "(kein Textauszug verfügbar)"}</div>
+        <div class="post-link-hint">Zum Beitrag auf Reddit &#8599;</div>
+      </a>`).join("");
   }
 
   // KPIs

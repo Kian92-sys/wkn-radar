@@ -30,6 +30,8 @@ def main():
             "week_order": [],
             "week_labels": {},
             "weeks": {},
+            "unknown_tickers": {},
+            "tip_threads": {},
         }
 
     has_data = bool(data.get("week_order"))
@@ -60,6 +62,8 @@ def main():
     html = html.replace("__WEEK_ORDER_JSON__", json.dumps(data.get("week_order", [])))
     html = html.replace("__WEEK_LABELS_JSON__", json.dumps(data.get("week_labels", {})))
     html = html.replace("__GENERATED_AT_JSON__", json.dumps(data.get("generated_at", "-")))
+    html = html.replace("__UNKNOWN_TICKERS_JSON__", json.dumps(data.get("unknown_tickers", {})))
+    html = html.replace("__TIP_THREADS_JSON__", json.dumps(data.get("tip_threads", {})))
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:

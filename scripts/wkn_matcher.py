@@ -114,3 +114,36 @@ def match_text(text, index: WknIndex):
             found.add(wkn)
 
     return found
+
+
+# Tickers that are also plain English/German words, common abbreviations, or
+# too generic to be a useful "unknown stock" signal on their own -- without
+# this, cashtag discovery would drown in noise ($IT, $ALL, $NOW, $DD, ...).
+# Deliberately small and separate from AMBIGUOUS_TICKERS: that list only
+# guards *bare* mentions of *known, mapped* tickers, whereas this one only
+# suppresses the discovery/suggestion list -- a real, unmapped $TICKER is
+# already a fairly strong signal by itself, so we only filter out the
+# obvious noise words here.
+GENERIC_CASHTAG_NOISE = {
+    "IT", "ALL", "ONE", "TWO", "NOW", "NEW", "NEXT", "GO", "OK", "USD", "EUR",
+    "CEO", "CFO", "IPO", "ATH", "DD", "YOLO", "FOMO", "TLDR",
+}
+
+
+def find_unknown_cashtags(text, index: WknIndex):
+    """Returns the set of raw $TICKER symbols mentioned in text that are NOT
+    covered by wkn_mapping.csv. This is the discovery signal for stocks we
+    don't track yet -- surfaced separately as a suggestion list rather than
+    folded into the tracked Top 10, since (deliberately) we know nothing
+    else about them yet: no WKN, no name, no segment."""
+    if not text:
+        return set()
+
+    found = set()
+    for token in DOLLAR_TICKER_PATTERN.findall(text):
+        if token in GENERIC_CASHTAG_NOISE:
+            continue
+        if token in index.ticker_to_wkn:
+            continue  # already a known, tracked stock
+        found.add(token)
+    return found
