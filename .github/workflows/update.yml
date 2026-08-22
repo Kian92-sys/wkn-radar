@@ -2,8 +2,53 @@ name: WKN-Radar aktualisieren
 
 # Läuft NICHT automatisch/zeitgesteuert -- nur wenn du es manuell startest:
 # Repo → Tab "Actions" → "WKN-Radar aktualisieren" → "Run workflow".
+# Dort kannst du pro Subreddit eine Checkbox abwaehlen, um ihn fuer diesen
+# einen Lauf zu ueberspringen (z.B. um Apify-Kosten zu sparen). Alle
+# Checkboxen sind standardmaessig an -- ohne etwas zu aendern laeuft alles
+# wie bisher.
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      sub_mauerstrassenwetten:
+        description: "r/mauerstrassenwetten durchsuchen"
+        type: boolean
+        default: true
+      sub_aktien:
+        description: "r/Aktien durchsuchen"
+        type: boolean
+        default: true
+      sub_finanzen:
+        description: "r/Finanzen durchsuchen"
+        type: boolean
+        default: true
+      sub_deutscheaktien:
+        description: "r/DeutscheAktien durchsuchen"
+        type: boolean
+        default: true
+      sub_wallstreetbetsger:
+        description: "r/wallstreetbetsGER durchsuchen"
+        type: boolean
+        default: true
+      sub_wallstreetbets:
+        description: "r/wallstreetbets durchsuchen"
+        type: boolean
+        default: true
+      sub_stocks:
+        description: "r/stocks durchsuchen"
+        type: boolean
+        default: true
+      sub_stockmarket:
+        description: "r/StockMarket durchsuchen"
+        type: boolean
+        default: true
+      sub_investing:
+        description: "r/investing durchsuchen"
+        type: boolean
+        default: true
+      sub_pennystocks:
+        description: "r/pennystocks durchsuchen"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -27,6 +72,16 @@ jobs:
         working-directory: scripts
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          SUBREDDIT_MAUERSTRASSENWETTEN: ${{ inputs.sub_mauerstrassenwetten }}
+          SUBREDDIT_AKTIEN: ${{ inputs.sub_aktien }}
+          SUBREDDIT_FINANZEN: ${{ inputs.sub_finanzen }}
+          SUBREDDIT_DEUTSCHEAKTIEN: ${{ inputs.sub_deutscheaktien }}
+          SUBREDDIT_WALLSTREETBETSGER: ${{ inputs.sub_wallstreetbetsger }}
+          SUBREDDIT_WALLSTREETBETS: ${{ inputs.sub_wallstreetbets }}
+          SUBREDDIT_STOCKS: ${{ inputs.sub_stocks }}
+          SUBREDDIT_STOCKMARKET: ${{ inputs.sub_stockmarket }}
+          SUBREDDIT_INVESTING: ${{ inputs.sub_investing }}
+          SUBREDDIT_PENNYSTOCKS: ${{ inputs.sub_pennystocks }}
         run: python collect.py
 
       - name: Wochendaten aggregieren
@@ -41,7 +96,11 @@ jobs:
         run: |
           git config user.name "wkn-radar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/mentions.jsonl data/seen_ids.json data/weekly_data.json docs/index.html
+          # touch statt direkt add: falls z.B. noch nie ein unbekannter Ticker
+          # gefunden wurde, existiert die Datei sonst nicht und "git add"
+          # wuerde mit "pathspec did not match" den ganzen Schritt abbrechen.
+          touch data/mentions.jsonl data/seen_ids.json data/weekly_data.json data/unknown_tickers.jsonl data/tip_threads.jsonl
+          git add data/mentions.jsonl data/seen_ids.json data/weekly_data.json data/unknown_tickers.jsonl data/tip_threads.jsonl docs/index.html
           if git diff --staged --quiet; then
             echo "Keine Aenderungen."
           else
