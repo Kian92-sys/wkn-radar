@@ -1,5 +1,5 @@
 {
-  "generated_at": "18.08.2026, 19:38 UTC",
+  "generated_at": "22.08.2026, 20:45 UTC",
   "subreddits": [
     "mauerstrassenwetten",
     "Aktien",
@@ -13,10 +13,18 @@
     "pennystocks"
   ],
   "week_order": [
-    "2026-W34"
+    "2026-W34",
+    "2026-W33",
+    "2023-W38",
+    "2023-W37",
+    "2021-W13"
   ],
   "week_labels": {
-    "2026-W34": "KW 34 · 17.–23. Aug 2026"
+    "2026-W34": "KW 34 · 17.–23. Aug 2026",
+    "2026-W33": "KW 33 · 10.–16. Aug 2026",
+    "2023-W38": "KW 38 · 18.–24. Sep 2023",
+    "2023-W37": "KW 37 · 11.–17. Sep 2023",
+    "2021-W13": "KW 13 · 29. Mär–4. Apr 2021"
   },
   "weeks": {
     "2026-W34": [
@@ -77,13 +85,20 @@
           0,
           0,
           0,
-          0,
+          1,
           0
         ],
         "bySubreddit": {
-          "mauerstrassenwetten": 2
+          "mauerstrassenwetten": 2,
+          "stocks": 1
         },
         "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vvelsh/scam_altman_ai_psychosis_and_the_datacenter_grift/",
+            "subreddit": "stocks",
+            "date": "2026-08-22",
+            "snippet": "Scam Altman, AI Psychosis, and the Datacenter Grift"
+          },
           {
             "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
             "subreddit": "mauerstrassenwetten",
@@ -109,15 +124,22 @@
           0,
           0,
           0,
-          0,
+          1,
           0
         ],
         "bySubreddit": {
           "mauerstrassenwetten": 2,
           "wallstreetbets": 1,
-          "investing": 1
+          "investing": 1,
+          "stocks": 1
         },
         "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vvelsh/scam_altman_ai_psychosis_and_the_datacenter_grift/p58rrce/",
+            "subreddit": "stocks",
+            "date": "2026-08-22",
+            "snippet": "People create mobile apps since 2007. There are more videos of people building apps without AI than with AI. I didn’t mean just apps, I mean…"
+          },
           {
             "url": "https://www.reddit.com/r/mauerstrassenwetten/comments/1vrrlaw/die_abschreibungswelle_kommt_egal_was_die/",
             "subreddit": "mauerstrassenwetten",
@@ -221,6 +243,375 @@
             "snippet": "Trying to Understand Why People Fear A Correction?"
           }
         ]
+      },
+      {
+        "ticker": "AAPL",
+        "name": "Apple",
+        "wkn": "865985",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vu8dds/why_is_there_zero_outrage_over_politicians/p4zi9kl/",
+            "subreddit": "stocks",
+            "date": "2026-08-21",
+            "snippet": "Also, Americans are more concerned about paying the next installment of their 30-year mortgage on a cardboard home, their leased Lexus and i…"
+          }
+        ]
+      },
+      {
+        "ticker": "MRK",
+        "name": "Merck KGaA",
+        "wkn": "659990",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vsje9n/moderna_mrna_up_70_premarket_on_positive_phase_3/",
+            "subreddit": "stocks",
+            "date": "2026-08-19",
+            "snippet": "Moderna (MRNA) up 70% premarket on positive phase 3 results of first mRNA treatment to prevent cancer (melanoma recurrence)"
+          }
+        ]
+      },
+      {
+        "ticker": "GME",
+        "name": "GameStop",
+        "wkn": "A0HGDX",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/1vvg5hm/rstocks_weekly_thread_on_meme_stocks_saturday_aug/",
+            "subreddit": "stocks",
+            "date": "2026-08-22",
+            "snippet": "r/Stocks Weekly Thread on Meme Stocks Saturday - Aug 22, 2026"
+          }
+        ]
+      }
+    ],
+    "2026-W33": [
+      {
+        "ticker": "AMZN",
+        "name": "Amazon",
+        "wkn": "906023",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "wallstreetbetsGER": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/wallstreetbetsGER/comments/1vo7p3l/welche_aktie_habt_ihr_gerade_im_auge_um/p3ndmyz/",
+            "subreddit": "wallstreetbetsGER",
+            "date": "2026-08-14",
+            "snippet": "Warte darauf, dass Amazon noch nen bisschen fällt. Habe gewinne mitgenommen und will dann wieder nachkaufen"
+          }
+        ]
+      },
+      {
+        "ticker": "SIE",
+        "name": "Siemens",
+        "wkn": "723610",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "wallstreetbetsGER": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/wallstreetbetsGER/comments/1vo7p3l/welche_aktie_habt_ihr_gerade_im_auge_um/p3netee/",
+            "subreddit": "wallstreetbetsGER",
+            "date": "2026-08-14",
+            "snippet": "Applovin Siemens Energy Bloom Energy Mittelfristig machen Energiewende Sinn weil keiner mehr Bock auf ÖL hat"
+          }
+        ]
+      },
+      {
+        "ticker": "PLTR",
+        "name": "Palantir",
+        "wkn": "A2QA4J",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "wallstreetbetsGER": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/wallstreetbetsGER/comments/1vo7p3l/welche_aktie_habt_ihr_gerade_im_auge_um/p3nnwcp/",
+            "subreddit": "wallstreetbetsGER",
+            "date": "2026-08-14",
+            "snippet": "Ehrlich… keine. Sollte PLTR nochmal auf 125€ kommen kaufe ich nach aber ansonsten bin ich für dieses Jahr durch"
+          }
+        ]
+      },
+      {
+        "ticker": "AAPL",
+        "name": "Apple",
+        "wkn": "865985",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/1vplq9h/lets_talk_about_penny_stocks_the_first_understand/",
+            "subreddit": "pennystocks",
+            "date": "2026-08-16",
+            "snippet": "Let’s talk about penny stocks (The First Understand). (Post 1/45)"
+          }
+        ]
+      }
+    ],
+    "2023-W38": [
+      {
+        "ticker": "SNAP",
+        "name": "Snap",
+        "wkn": "A2JVBX",
+        "segment": "bluechip",
+        "spark": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/16ldavv/whats_your_potential_tenbagger_stock_4_years_later/k140hyb/",
+            "subreddit": "stocks",
+            "date": "2023-09-18",
+            "snippet": "It's like when you buy SNAP at $80/share and now it's $9. Those kinda bags"
+          }
+        ]
+      }
+    ],
+    "2023-W37": [
+      {
+        "ticker": "TSLA",
+        "name": "Tesla",
+        "wkn": "A1CX3T",
+        "segment": "bluechip",
+        "spark": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "bySubreddit": {
+          "stocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/stocks/comments/16ldavv/whats_your_potential_tenbagger_stock_4_years_later/",
+            "subreddit": "stocks",
+            "date": "2023-09-17",
+            "snippet": "What’s your potential tenbagger stock 4 years later"
+          }
+        ]
+      }
+    ],
+    "2021-W13": []
+  },
+  "unknown_tickers": {
+    "2026-W34": [
+      {
+        "ticker": "PUGE",
+        "total": 1,
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/1vplq9h/lets_talk_about_penny_stocks_the_first_understand/p4bvwaj/",
+            "subreddit": "pennystocks",
+            "date": "2026-08-18",
+            "snippet": "$PUGE"
+          }
+        ]
+      },
+      {
+        "ticker": "HMR",
+        "total": 1,
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/1vplq9h/lets_talk_about_penny_stocks_the_first_understand/p4k44hg/",
+            "subreddit": "pennystocks",
+            "date": "2026-08-19",
+            "snippet": "All I have to say is $HMR. Whomever suggested this penny stock a few weeks ago is a genius. I just wish I spent a little to make a little."
+          }
+        ]
+      },
+      {
+        "ticker": "CMMB",
+        "total": 1,
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/1vvdvph/cmmb_update_on_the_chemomab_merger_with_scipher/",
+            "subreddit": "pennystocks",
+            "date": "2026-08-22",
+            "snippet": "$CMMB - Update on the Chemomab merger with Scipher Medicine"
+          }
+        ]
+      },
+      {
+        "ticker": "DFSC",
+        "total": 1,
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/1vvdho4/dfsc_last_line_of_testing_of_bliss_before/",
+            "subreddit": "pennystocks",
+            "date": "2026-08-22",
+            "snippet": "$DFSC Last line of testing of BLISS before potential US army procurement contracts. $5M market cap."
+          }
+        ]
+      }
+    ],
+    "2026-W33": [
+      {
+        "ticker": "DRAM",
+        "total": 1,
+        "bySubreddit": {
+          "wallstreetbetsGER": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/wallstreetbetsGER/comments/1vo7p3l/welche_aktie_habt_ihr_gerade_im_auge_um/p3ncnl1/",
+            "subreddit": "wallstreetbetsGER",
+            "date": "2026-08-14",
+            "snippet": "mehr $DRAM ETF"
+          }
+        ]
+      }
+    ],
+    "2023-W38": [],
+    "2023-W37": [],
+    "2021-W13": [
+      {
+        "ticker": "MOGO",
+        "total": 1,
+        "bySubreddit": {
+          "pennystocks": 1
+        },
+        "posts": [
+          {
+            "url": "https://www.reddit.com/r/pennystocks/comments/mj4a6o/which_pennystocks_can_be_a_tenbagger_in_april/gt8eyun/",
+            "subreddit": "pennystocks",
+            "date": "2021-04-03",
+            "snippet": "Could you say why you think that? $MOGO is already on my radar, but looking at the last 6 months, it already made nearly 1000%. Thats why i…"
+          }
+        ]
+      }
+    ]
+  },
+  "tip_threads": {
+    "2026-W34": [],
+    "2026-W33": [
+      {
+        "subreddit": "wallstreetbetsGER",
+        "date": "2026-08-14",
+        "url": "https://www.reddit.com/r/wallstreetbetsGER/comments/1vo7p3l/welche_aktie_habt_ihr_gerade_im_auge_um/",
+        "snippet": "Welche Aktie habt ihr gerade im Auge um einzukaufen?"
+      }
+    ],
+    "2023-W38": [],
+    "2023-W37": [
+      {
+        "subreddit": "stocks",
+        "date": "2023-09-17",
+        "url": "https://www.reddit.com/r/stocks/comments/16ldavv/whats_your_potential_tenbagger_stock_4_years_later/",
+        "snippet": "What’s your potential tenbagger stock 4 years later"
+      }
+    ],
+    "2021-W13": [
+      {
+        "subreddit": "pennystocks",
+        "date": "2021-04-03",
+        "url": "https://www.reddit.com/r/pennystocks/comments/mj4a6o/which_pennystocks_can_be_a_tenbagger_in_april/",
+        "snippet": "Which Pennystocks can be a Tenbagger in April?"
       }
     ]
   }
